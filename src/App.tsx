@@ -1,4 +1,4 @@
-import "./components/pattern";
+// import "./components/pattern";
 import "./components/array";
 import "./App.css";
 

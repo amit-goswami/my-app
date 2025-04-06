@@ -42,3 +42,47 @@
 
   console.log(maxProduct);
 })();
+
+// Linear Search
+(function () {
+  const arr = [1, 3, 4, 5, 8, 9];
+  const target = 4;
+  let isPresent = 0;
+
+  for (const n of arr) {
+    if (arr[n] === target) {
+      isPresent = 1;
+      return console.log(isPresent);
+    } else {
+      isPresent = 0;
+    }
+  }
+
+  console.log(isPresent);
+})();
+
+// Binary Search
+(function () {
+  const arr = [1, 2, 3, 4, 5, 6];
+  const target = 4;
+
+  let lptr = 0;
+  let rptr = arr.length - 1;
+
+  while (lptr <= rptr) {
+    const mid = Math.floor((lptr + rptr) / 2);
+
+    if (arr[mid] === target) {
+      console.log(`Found at index ${mid}`);
+      return;
+    }
+
+    if (arr[mid] < target) {
+      lptr = mid + 1;
+    } else {
+      rptr = mid - 1;
+    }
+  }
+
+  console.log("Not found");
+})();
