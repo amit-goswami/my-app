@@ -272,16 +272,16 @@
   };
 
   for (let i = 1; i <= number; i++) {
-    for (let j = 1; j <= number; j++) {
+    for (let j = 1; j <= 2 * number - 2; j++) {
       if (i !== 1) {
         const sum = i + j;
         if (
-          i + j === number ||
-          i === number - 1 ||
+          i + j === 2 * number - 3 ||
+          (i === number && j !== 1) ||
           (obj["lastSum"] + 2 === sum && obj["lastSumIndex"] + 1 === j)
         ) {
           ans += "* ";
-          if (j >= Math.round(number / 2)) {
+          if (j >= number) {
             obj["lastSum"] = sum;
             obj["lastSumIndex"] = j;
           }
@@ -289,6 +289,60 @@
           ans += "  ";
         }
       }
+    }
+    ans += "\n";
+  }
+
+  console.log(ans);
+})();
+
+(function Butterfly() {
+  const number = 5;
+  let ans = "";
+  let minSpaceIndex = 2;
+  let maxSpaceIndex = 2 * number - 3;
+
+  for (let i = 1; i <= 2 * number - 3; i++) {
+    for (let j = 1; j <= 2 * number - 2; j++) {
+      if (j >= minSpaceIndex && j <= maxSpaceIndex) {
+        ans += "  ";
+      } else {
+        ans += "* ";
+      }
+    }
+    ans += "\n";
+    if (i < number - 1) {
+      minSpaceIndex++;
+      maxSpaceIndex--;
+    } else {
+      minSpaceIndex--;
+      maxSpaceIndex++;
+    }
+  }
+
+  console.log(ans);
+})();
+
+(function Diamond() {
+  const number = 5;
+  let ans = "";
+  let space = Math.round(number / 2) - 1;
+  let JValue = Math.round(number / 2);
+
+  for (let i = 1; i <= 5; i++) {
+    for (let j = 1; j <= JValue; j++) {
+      if (j <= space) {
+        ans += "  ";
+      } else {
+        ans += "* ";
+      }
+    }
+    if (i < Math.round(number / 2)) {
+      JValue++;
+      space--;
+    } else {
+      JValue--;
+      space++;
     }
     ans += "\n";
   }
