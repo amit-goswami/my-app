@@ -1,8 +1,9 @@
-import "./components/index";
+import "./components/pattern";
+import "./components/array";
 import "./App.css";
 
 function App() {
-  return <></>;
+  return <div className="">Hello World!!</div>;
 }
 
 export default App;

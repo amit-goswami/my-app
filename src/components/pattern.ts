@@ -1,25 +1,3 @@
-(function findSum() {
-  const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const sum = 9;
-
-  (function (arr, sum) {
-    const map = new Map();
-
-    for (let i = 0; i < arr.length; i++) {
-      const val = sum - arr[i];
-
-      if (!map.has(val)) {
-        map.set(arr[i], i);
-      } else {
-        const index = map.get(val);
-        const answer = [index, i];
-        console.log(answer);
-        return;
-      }
-    }
-  })(arr, sum);
-})();
-
 (function Square() {
   const number = 5;
   let ans = "";
