@@ -178,3 +178,39 @@
 
   console.log(ans);
 })();
+
+(function Cross() {
+  const number = 5;
+  let ans = "";
+
+  for (let i = 1; i <= number; i++) {
+    for (let j = 1; j <= number; j++) {
+      if (j === Math.round(number / 2) || i === Math.round(number / 2)) {
+        ans += "* ";
+      } else {
+        ans += "  ";
+      }
+    }
+    ans += "\n";
+  }
+
+  console.log(ans);
+})();
+
+(function X() {
+  const number = 5;
+  let ans = "";
+
+  for (let i = 1; i <= 2 * number - 1; i++) {
+    for (let j = 1; j <= 2 * number - 1; j++) {
+      if (i === j || j + i === 2 * number) {
+        ans += "* ";
+      } else {
+        ans += "  ";
+      }
+    }
+    ans += "\n";
+  }
+
+  console.log(ans);
+})();
