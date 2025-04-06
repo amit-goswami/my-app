@@ -214,3 +214,84 @@
 
   console.log(ans);
 })();
+
+(function SandGlass() {
+  const number = 5;
+  let ans = "";
+  let space = 0;
+
+  for (let i = 1; i <= 2 * number - 1; i++) {
+    for (let j = 1; j <= number; j++) {
+      if (j > space) {
+        ans += "* ";
+      } else {
+        ans += "  ";
+      }
+    }
+    if (i < number) {
+      space++;
+    } else {
+      space--;
+    }
+    ans += "\n";
+  }
+
+  console.log(ans);
+})();
+
+(function HalfDiamond() {
+  const number = 5;
+  let ans = "";
+  let space = 0;
+
+  for (let i = 1; i <= 2 * number - 1; i++) {
+    for (let j = 1; j <= number; j++) {
+      if (j > space) {
+        ans += "  ";
+      } else {
+        ans += "* ";
+      }
+    }
+    if (i < number) {
+      space++;
+    } else {
+      space--;
+    }
+    ans += "\n";
+  }
+
+  console.log(ans);
+})();
+
+(function HallowPyramid() {
+  const number = 5;
+  let ans = "";
+  const obj = {
+    lastSum: 0,
+    lastSumIndex: 0,
+  };
+
+  for (let i = 1; i <= number; i++) {
+    for (let j = 1; j <= number; j++) {
+      if (i !== 1) {
+        const sum = i + j;
+        if (
+          i + j === number ||
+          i === number - 1 ||
+          (obj["lastSum"] + 2 === sum && obj["lastSumIndex"] + 1 === j)
+        ) {
+          ans += "* ";
+          if (j >= Math.round(number / 2)) {
+            obj["lastSum"] = sum;
+            obj["lastSumIndex"] = j;
+          }
+        } else {
+          ans += "  ";
+        }
+      }
+    }
+    ans += "\n";
+  }
+
+  console.log(ans);
+})();
