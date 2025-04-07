@@ -20,7 +20,7 @@
   })(arr, sum);
 })();
 
-(function () {
+(function findMaxProduct() {
   const arr = [2, 3, -2, 4];
   let maxProduct = 1;
 
