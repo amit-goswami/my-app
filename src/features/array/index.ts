@@ -84,3 +84,24 @@
 
   console.log("Not found");
 })();
+
+(function ContainsDuplicates() {
+  const arr = [1, 2, 3, 4, 5, 6, 7, 7];
+  const ansMap = new Map();
+
+  for (let i = 1; i <= arr.length; i++) {
+    if (ansMap.has(arr[i])) {
+      return console.log("YES");
+    } else {
+      ansMap.set(arr[i], 1);
+    }
+  }
+
+  const newSet = new Set(arr);
+
+  if (arr.length !== newSet.size) {
+    return console.log("YES");
+  }
+
+  return console.log("NO");
+})();

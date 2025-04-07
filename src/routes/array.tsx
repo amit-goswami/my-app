@@ -22,7 +22,7 @@ function Array() {
       <Button
         variant="primary"
         children="Pattern"
-        className="w-2/12"
+        className="w-1/2"
         onClick={() => handleNavigation()}
       />
     </MainWrapper>

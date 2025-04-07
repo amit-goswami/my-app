@@ -21,7 +21,7 @@ function Pattern() {
       <Button
         variant="primary"
         children="Home"
-        className="w-2/12"
+        className="w-1/2"
         onClick={() => handleNavigation()}
       />
     </MainWrapper>

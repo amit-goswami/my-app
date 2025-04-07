@@ -4,7 +4,6 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
-
 import { routeTree } from "./routeTree.gen";
 
 const router = createRouter({ routeTree });
