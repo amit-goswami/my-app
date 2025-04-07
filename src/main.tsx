@@ -1,9 +1,9 @@
 import "./index.css";
+import theme from "./theme";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
-import theme from "./theme";
 
 import { routeTree } from "./routeTree.gen";
 

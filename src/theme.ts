@@ -10,7 +10,10 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Roboto, sans-serif",
+    fontFamily: "Bungee Tint",
+    fontSize: 24,
+    fontWeightLight: 300,
+    fontWeightRegular: 400,
   },
 });
 

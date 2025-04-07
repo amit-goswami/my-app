@@ -8,7 +8,7 @@ interface ButtonProps extends BaseInputProps<HTMLButtonElement> {
 const getVarientClasses = (variant: ButtonProps["variant"]): string => {
   switch (variant) {
     case "primary":
-      return "bg-blue-500 text-white";
+      return "bg-black-500 border border-red-800";
     case "secondary":
       return "bg-gray-500 text-white";
     case "tertiary":
@@ -27,7 +27,8 @@ const Button: React.FC<ButtonProps> = ({ variant = "primary", ...props }) => {
       {...props}
       className={`${baseClass} ${
         props.className ? props.className : ""
-      } rounded-md p-2 hover:shadow-md transition-all duration-200 ease-in-out`}
+      } rounded-md p-2 hover:shadow-md transition-all duration-200 ease-in-out cursor-pointer hover:scale-102 active:scale-95
+      `}
     />
   );
 };
