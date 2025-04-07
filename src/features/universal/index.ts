@@ -395,3 +395,170 @@
 
 // DSA
 // https://neetcode.io/practice?tab=neetcode250
+
+// 🔹 Array & String Problems
+// Two pointers (e.g., reverse string, sorted squares)
+// Sliding window (e.g., longest substring without repeating chars)
+// Prefix sum (e.g., subarray sum equals k)
+// Merge intervals
+// Kadane’s algorithm (max subarray sum)
+// Rotation/shifting (e.g., rotate array, string rotation check)
+
+// 🔹 Hashing / Maps / Sets
+// Frequency count (e.g., valid anagram, top K elements)
+// Hashmap for lookup optimization (e.g., two sum, subarray with sum)
+// Set operations (e.g., intersection, duplicates detection)
+
+// 🔹 Linked Lists
+// Reverse a linked list
+// Detect cycle (Floyd’s algo)
+// Merge two sorted lists
+// Find middle node
+// Remove nth node from end
+
+// 🔹 Stacks & Queues
+// Valid parentheses
+// Min stack
+// Queue using stacks
+// Monotonic stack (e.g., next greater element)
+// Sliding window maximum
+
+// 🔹 Trees & Graphs
+// DFS / BFS (binary tree, general graph traversal)
+// Lowest common ancestor
+// Inorder / preorder / postorder traversal
+// Serialize & deserialize binary tree
+// Graph cycle detection
+// Topological sort
+
+// 🔹 Recursion & Backtracking
+// Permutations & combinations
+// N-Queens
+// Sudoku solver
+// Subset problems
+// Word search
+
+// 🔹 Sorting & Searching
+// Binary search (classic + variations)
+// Merge sort / quicksort basics
+// Kth largest/smallest element
+// Search in rotated sorted array
+// Peak element
+
+// 🔹 Dynamic Programming
+// Fibonacci variations (memoization vs tabulation)
+// 0/1 Knapsack
+// Longest increasing subsequence
+// Longest common subsequence / substring
+// Coin change
+// Palindromic substrings / partitions
+
+// 🔹 Greedy Algorithms
+// Activity selection
+// Jump game
+// Gas station problem
+// Interval scheduling
+
+// 🔹 Bit Manipulation (basic level)
+// Single number / XOR problems
+// Bit counting (Brian Kernighan's algorithm)
+// Power of two check
+
+// 🔹 JavaScript-Specific DSA Questions
+// Event loop & call stack behavior
+// Debounce vs throttle (with implementation)
+// Deep clone / shallow clone
+// Flatten deeply nested arrays
+// Memoization in JS
+// Custom implementations (e.g., Promise.all, Array.prototype.map, bind, debounce, etc.)
+
+// 🔹 System Design + Performance Focused DSA
+// Infinite scroll handling (data structures to manage it)
+// Autocomplete / Trie-based search
+// Debounced search performance
+// Efficient DOM diffing / re-render strategies (e.g., virtual DOM logic)
+
+// HTML Tags
+// 🔧 Form Elements
+// <form> – Form container
+// <input> – Text, checkbox, radio, etc.
+// <textarea> – Multi-line text input
+// <select> – Drop-down menu
+// <option> – Options inside <select>
+// <button> – Clickable button
+// <label> – Label for form elements
+// <fieldset> – Group related fields
+// <legend> – Caption for <fieldset>
+// <datalist> – Autocomplete options for <input>
+// <output> – Output of a calculation
+// <progress> – Progress bar
+// <meter> – Gauge/bar for measurement
+
+// 📦 Structural Tags
+// <html> – Root element
+// <head> – Metadata container
+// <body> – Document body
+// <header> – Page or section header
+// <footer> – Page or section footer
+// <nav> – Navigation links
+// <main> – Main content
+// <section> – Thematic section
+// <article> – Independent content
+// <aside> – Sidebar or tangential content
+// <div> – Generic container
+// <span> – Inline container
+
+// 📝 Text & Formatting
+// <h1> to <h6> – Headings
+// <p> – Paragraph
+// <a> – Hyperlink
+// <strong> – Important (bold)
+// <em> – Emphasized (italic)
+// <br> – Line break
+// <hr> – Horizontal rule
+// <blockquote> – Quoted section
+// <code> – Inline code
+// <pre> – Preformatted text
+// <mark> – Highlighted text
+// <small> – Smaller text
+// <sub> / <sup> – Subscript/superscript
+// <u> – Underline
+// <b> – Bold (non-semantic)
+// <i> – Italic (non-semantic)
+
+// 📸 Media
+// <img> – Image
+// <video> – Video
+// <audio> – Audio
+// <source> – Media source
+// <track> – Subtitles/captions
+// <canvas> – Drawing area
+// <svg> – Scalable Vector Graphics
+// <figure> – Media with caption
+// <figcaption> – Caption for <figure>
+
+// 📋 Lists & Tables
+// <ul> – Unordered list
+// <ol> – Ordered list
+// <li> – List item
+// <dl> – Description list
+// <dt> – Term in <dl>
+// <dd> – Description in <dl>
+// <table> – Table
+// <thead> – Table header
+// <tbody> – Table body
+// <tfoot> – Table footer
+// <tr> – Table row
+// <th> – Table header cell
+// <td> – Table data cell
+// <caption> – Table caption
+// <colgroup> / <col> – Column settings
+
+// ⚙️ Scripting & Meta
+// <script> – JavaScript
+// <noscript> – Fallback for no JS
+// <style> – CSS styles
+// <link> – External resources (like CSS)
+// <meta> – Metadata (charset, viewport, etc.)
+// <title> – Page title
+// <base> – Base URL for links
