@@ -43,8 +43,7 @@
   console.log(maxProduct);
 })();
 
-// Linear Search
-(function () {
+(function LinearSearch() {
   const arr = [1, 3, 4, 5, 8, 9];
   const target = 4;
   let isPresent = 0;
@@ -61,8 +60,7 @@
   console.log(isPresent);
 })();
 
-// Binary Search
-(function () {
+(function BinarySearch() {
   const arr = [1, 2, 3, 4, 5, 6];
   const target = 4;
 
