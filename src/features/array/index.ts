@@ -105,3 +105,41 @@
 
   return console.log("NO");
 })();
+
+(function SlidingWindowPattern() {
+  const arr = [1, 2, 3, 4, 5, 6, 7, 7];
+  const length = 3;
+
+  let sumOfPrevLength = 0;
+
+  for (let i = 0; i <= length - 1; i++) {
+    sumOfPrevLength += arr[i];
+  }
+
+  let maxSum = sumOfPrevLength;
+
+  for (let i = length; i <= arr.length - 1; i++) {
+    sumOfPrevLength = sumOfPrevLength + arr[i] - arr[i - length];
+    if (maxSum <= sumOfPrevLength) {
+      maxSum = sumOfPrevLength;
+    }
+  }
+
+  console.log("Max Sum", maxSum);
+})();
+
+(function SlidingWindowDynamicLength() {
+  const arr = ["a", "b", "a", "b", "c", "d"];
+
+  const uniqueArr = [];
+
+  for (let rightPointer = 0; rightPointer <= arr.length - 1; rightPointer++) {
+    uniqueArr.push(arr[rightPointer]);
+
+    if (new Set(uniqueArr).size !== uniqueArr.length) {
+      uniqueArr.shift();
+    }
+  }
+
+  console.log(uniqueArr);
+})();
