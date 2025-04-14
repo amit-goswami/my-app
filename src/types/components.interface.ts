@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type UniversalType = any;
+export type UniversalType = any;
 
 export enum INPUT_TYPE {
   TEXT = "text",

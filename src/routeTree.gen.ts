@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as PatternImport } from './routes/pattern'
 import { Route as MainImport } from './routes/main'
+import { Route as LinkedlistImport } from './routes/linkedlist'
 import { Route as ArrayImport } from './routes/array'
 import { Route as IndexImport } from './routes/index'
 
@@ -27,6 +28,12 @@ const PatternRoute = PatternImport.update({
 const MainRoute = MainImport.update({
   id: '/main',
   path: '/main',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LinkedlistRoute = LinkedlistImport.update({
+  id: '/linkedlist',
+  path: '/linkedlist',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,6 +67,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArrayImport
       parentRoute: typeof rootRoute
     }
+    '/linkedlist': {
+      id: '/linkedlist'
+      path: '/linkedlist'
+      fullPath: '/linkedlist'
+      preLoaderRoute: typeof LinkedlistImport
+      parentRoute: typeof rootRoute
+    }
     '/main': {
       id: '/main'
       path: '/main'
@@ -82,6 +96,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/array': typeof ArrayRoute
+  '/linkedlist': typeof LinkedlistRoute
   '/main': typeof MainRoute
   '/pattern': typeof PatternRoute
 }
@@ -89,6 +104,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/array': typeof ArrayRoute
+  '/linkedlist': typeof LinkedlistRoute
   '/main': typeof MainRoute
   '/pattern': typeof PatternRoute
 }
@@ -97,22 +113,24 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/array': typeof ArrayRoute
+  '/linkedlist': typeof LinkedlistRoute
   '/main': typeof MainRoute
   '/pattern': typeof PatternRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/array' | '/main' | '/pattern'
+  fullPaths: '/' | '/array' | '/linkedlist' | '/main' | '/pattern'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/array' | '/main' | '/pattern'
-  id: '__root__' | '/' | '/array' | '/main' | '/pattern'
+  to: '/' | '/array' | '/linkedlist' | '/main' | '/pattern'
+  id: '__root__' | '/' | '/array' | '/linkedlist' | '/main' | '/pattern'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ArrayRoute: typeof ArrayRoute
+  LinkedlistRoute: typeof LinkedlistRoute
   MainRoute: typeof MainRoute
   PatternRoute: typeof PatternRoute
 }
@@ -120,6 +138,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ArrayRoute: ArrayRoute,
+  LinkedlistRoute: LinkedlistRoute,
   MainRoute: MainRoute,
   PatternRoute: PatternRoute,
 }
@@ -136,6 +155,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/array",
+        "/linkedlist",
         "/main",
         "/pattern"
       ]
@@ -145,6 +165,9 @@ export const routeTree = rootRoute
     },
     "/array": {
       "filePath": "array.tsx"
+    },
+    "/linkedlist": {
+      "filePath": "linkedlist.tsx"
     },
     "/main": {
       "filePath": "main.tsx"

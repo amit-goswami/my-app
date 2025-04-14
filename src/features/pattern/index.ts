@@ -1,3 +1,5 @@
+import { UniversalType } from "../../types/components.interface";
+
 (function Square() {
   const number = 5;
   let ans = "";
@@ -325,5 +327,18 @@
     ans += "\n";
   }
 
+  console.log(ans);
+})();
+
+(function Concurrancy() {
+  const string = "aabbccc";
+  const ans: UniversalType = {};
+  for (let i = 0; i < string.length; i++) {
+    if (string[i] in ans) {
+      ans[string[i]] = ans[string[i]] + 1;
+    } else {
+      ans[string[i]] = 1;
+    }
+  }
   console.log(ans);
 })();
