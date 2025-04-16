@@ -82,7 +82,7 @@ class LinkedList<T> {
     return (this.head = null);
   }
 
-  pushat(index: IPushAt<T>["index"], value: IPushAt<T>["value"]) {
+  pushAt(index: IPushAt<T>["index"], value: IPushAt<T>["value"]) {
     const currentSize = this.size();
     if (index > currentSize) {
       return console.log("OVERFLOW");
@@ -106,6 +106,52 @@ class LinkedList<T> {
       size++;
     }
   }
+
+  doesExist(value: T) {
+    let current = this.head;
+    while (current) {
+      if (current.data === value) {
+        return true;
+      }
+      current = current.next;
+    }
+    return false;
+  }
+
+  findIndexOf(value: T) {
+    let current = this.head;
+    let index = 0;
+    while (current) {
+      index += 1;
+      if (current.data === value) {
+        return index;
+      }
+      current = current.next;
+    }
+    return index;
+  }
+
+  find(value: T) {
+    let current = this.head;
+    while (current) {
+      if (current.data === value) {
+        return current.data;
+      }
+      current = current.next as Node<T>;
+    }
+  }
+
+  filter(value: T) {
+    let current = this.head;
+    const filteredList = [];
+    while (current) {
+      if (current.data === value) {
+        filteredList.push(current.data);
+      }
+      current = current.next;
+    }
+    return filteredList;
+  }
 }
 
 const LLinkedList = new LinkedList();
@@ -114,7 +160,12 @@ console.log(LLinkedList.append(1));
 console.log(LLinkedList.printList());
 console.log(LLinkedList.printList());
 console.log(LLinkedList.size());
-console.log(LLinkedList.pushat(1, 2));
-console.log(LLinkedList.pushat(1, 3));
-console.log(LLinkedList.pushat(2, 4));
+LLinkedList.pushAt(1, 2);
+LLinkedList.pushAt(1, 3);
+LLinkedList.pushAt(2, 4);
+console.log(LLinkedList.doesExist(2));
+console.log(LLinkedList.findIndexOf(2));
+console.log(LLinkedList.find(2));
+LLinkedList.append(2);
+console.log(LLinkedList.filter(2));
 console.log(LLinkedList.printList());
