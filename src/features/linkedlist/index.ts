@@ -155,7 +155,7 @@ class LinkedList<T> {
 }
 
 const LLinkedList = new LinkedList();
-console.log(LLinkedList.printList());
+LLinkedList.printList();
 console.log(LLinkedList.append(1));
 console.log(LLinkedList.printList());
 console.log(LLinkedList.printList());
