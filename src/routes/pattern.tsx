@@ -1,4 +1,4 @@
-import "../features/pattern/index";
+// import "../features/pattern/index";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { ROUTES } from "../types/route.interface";
 import MainWrapper from "../components/wrapper";
@@ -13,14 +13,14 @@ function Pattern() {
 
   const handleNavigation = () => {
     router.navigate({
-      to: `${ROUTES.LINKED_LIST}`,
+      to: `${ROUTES.HOME}`,
     });
   };
   return (
     <MainWrapper>
       <Button
         variant="primary"
-        children="Linked List"
+        children="Go to Home"
         className="w-1/2"
         onClick={() => handleNavigation()}
       />

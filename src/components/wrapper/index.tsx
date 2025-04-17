@@ -7,7 +7,7 @@ const MainWrapper = ({
 }: MainWrapperProps &
   React.HTMLAttributes<HTMLDivElement> & { className?: string }) => {
   return (
-    <div className="flex flex-col gap-4 w-svw h-svh p-4 bg-black items-center justify-center">
+    <div className="flex gap-4 w-svw h-svh p-4 bg-black items-start justify-start">
       {children}
     </div>
   );

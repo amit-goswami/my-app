@@ -3,4 +3,5 @@ export enum ROUTES {
   ARRAY = "/array",
   PATTERN = "/pattern",
   LINKED_LIST = "/linkedlist",
+  NEET_CODE_150 = "/150",
 }

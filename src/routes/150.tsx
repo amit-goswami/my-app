@@ -1,10 +1,10 @@
-// import "../features/linkedlist/index";
+import "../features/150/index";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { ROUTES } from "../types/route.interface";
 import MainWrapper from "../components/wrapper";
 import Button from "../components/button";
 
-export const Route = createFileRoute("/linkedlist")({
+export const Route = createFileRoute("/150")({
   component: RouteComponent,
 });
 

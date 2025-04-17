@@ -1,4 +1,4 @@
-import "../features/array/index";
+// import "../features/array/index";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { ROUTES } from "../types/route.interface";
 import MainWrapper from "../components/wrapper";
@@ -13,7 +13,7 @@ function Array() {
 
   const handleNavigation = () => {
     router.navigate({
-      to: `${ROUTES.PATTERN}`,
+      to: `${ROUTES.HOME}`,
     });
   };
 
@@ -21,7 +21,7 @@ function Array() {
     <MainWrapper>
       <Button
         variant="primary"
-        children="Pattern"
+        children="Go to Home"
         className="w-1/2"
         onClick={() => handleNavigation()}
       />
