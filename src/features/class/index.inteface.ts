@@ -37,7 +37,6 @@ const initialCustomerData: CustomerTabs = {
   Bank: null,
 };
 
-// Generic Object class
 class ObjectPro<T> {
   private data: T;
 
@@ -54,7 +53,6 @@ class ObjectPro<T> {
   }
 }
 
-// Generic module class
 class Module<T extends InitialData> implements IModule<T> {
   public data: ObjectPro<T>;
 
