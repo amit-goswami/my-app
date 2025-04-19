@@ -3,7 +3,7 @@ type UniversalType = any;
 
 type InitialData = Record<string, UniversalType>;
 
-interface IModule<T extends InitialData> {
+interface IModule<T> {
   data: T;
 }
 
