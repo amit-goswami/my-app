@@ -1,3 +1,10 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type UniversalType = any;
+
+interface IModule<T extends Record<string, UniversalType>> {
+  data: T;
+}
+
 type CompanyData = {
   header: string;
   subHeader: string;
@@ -16,45 +23,34 @@ type BankData = {
   ifscCode: string;
 };
 
-type CustomerModuleTab = "Company" | "Payment" | "Bank";
-
-type CustomerModuleDataMap = {
+// Flexible structure
+type CustomerTabs = {
   Company: CompanyData | null;
   Payment: PaymentData | null;
   Bank: BankData | null;
 };
 
-type GenericObject<U extends string, T> = Record<U, T>;
+// Usage
+const initialCustomerData: CustomerTabs = {
+  Company: null,
+  Payment: null,
+  Bank: null,
+};
 
-interface ICustomerModule<T> {
-  data: T;
-}
-
-type InitialData = GenericObject<
-  CustomerModuleTab,
-  CustomerModuleDataMap[CustomerModuleTab]
->;
-
-class CustomerModule<T extends InitialData> implements ICustomerModule<T> {
+// Generic module class
+class Module<T extends Record<string, UniversalType>> implements IModule<T> {
   public data: T;
 
   constructor(data: T) {
     this.data = data;
   }
 
-  getTabDetails<K extends CustomerModuleTab>(tab: K): T[K] {
-    if (tab in this.data) {
-      return this.data[tab];
-    }
-    throw new Error(`Tab ${tab} does not exist in the data object`);
+  getTabDetails<K extends keyof T>(tab: K): T[K] {
+    return this.data[tab];
   }
 
-  setTabDetails<K extends CustomerModuleTab>(tab: K, details: T[K]): void {
-    if (tab in this.data) {
-      this.data[tab] = details;
-    } else {
-      throw new Error(`Tab ${tab} does not exist in the data object`);
-    }
+  setTabDetails<K extends keyof T>(tab: K, details: T[K]): void {
+    this.data[tab] = details;
   }
 
   getAllTabs(): T {
@@ -65,33 +61,20 @@ class CustomerModule<T extends InitialData> implements ICustomerModule<T> {
     this.data = data;
   }
 
-  getTabKeys(): CustomerModuleTab[] {
-    return Object.keys(this.data) as CustomerModuleTab[];
+  getTabKeys(): (keyof T)[] {
+    return Object.keys(this.data) as (keyof T)[];
   }
 
-  getTabDetailsByKey<K extends CustomerModuleTab>(key: K): T[K] | null {
-    return this.data[key] || null;
+  getTabDetailsByKey<K extends keyof T>(key: K): T[K] | null {
+    return this.data[key] ?? null;
   }
 
-  setTabDetailsByKey<K extends CustomerModuleTab>(key: K, details: T[K]): void {
-    if (key in this.data) {
-      this.data[key] = details;
-    } else {
-      throw new Error(`Tab ${key} does not exist in the data object`);
-    }
+  setTabDetailsByKey<K extends keyof T>(key: K, details: T[K]): void {
+    this.data[key] = details;
   }
 }
 
-export default CustomerModule;
+const customerModule = new Module<CustomerTabs>(initialCustomerData);
 
-const initialData: InitialData = {
-  Bank: null,
-  Company: null,
-  Payment: null,
-};
-
-const module = new CustomerModule(initialData);
-
-// ✅ Type-safe usage
-const company = module.getTabDetails("Company"); // Typed as CompanyData
-const payment = module.getTabDetails("Payment"); // Typed as PaymentData
+// Type-safe usage
+const company = customerModule.getTabDetails("Payment"); // CompanyData | null
