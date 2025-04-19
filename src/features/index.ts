@@ -1,7 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type UniversalType = any;
 
-interface IModule<T extends Record<string, UniversalType>> {
+type InitialData = Record<string, UniversalType>;
+
+interface IModule<T extends InitialData> {
   data: T;
 }
 
@@ -38,7 +40,7 @@ const initialCustomerData: CustomerTabs = {
 };
 
 // Generic module class
-class Module<T extends Record<string, UniversalType>> implements IModule<T> {
+class Module<T extends InitialData> implements IModule<T> {
   public data: T;
 
   constructor(data: T) {
