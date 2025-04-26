@@ -11,9 +11,6 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: "Bungee Tint",
-    fontSize: 24,
-    fontWeightLight: 300,
-    fontWeightRegular: 400,
   },
 });
 

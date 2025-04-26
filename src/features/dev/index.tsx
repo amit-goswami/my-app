@@ -75,7 +75,7 @@ const removeElement = (arr: string[]) => {
   return updatedArr;
 };
 
-const Development = () => {
+const DevelopmentOne = () => {
   const [selectedGrid, setSelectedGrid] = useState<string[]>([]);
   const [isDisabled, setIsDisabled] = useState(false);
 
@@ -103,12 +103,64 @@ const Development = () => {
   }, [isDisabled, selectedGrid]);
 
   return (
-    <div className="bg-black">
-      <RenderGrid
-        isDisabled={isDisabled}
-        selectedGrid={selectedGrid}
-        setSelectedGrid={setSelectedGrid}
-      />
+    <div>
+      <div>One</div>
+      <div className="bg-black flex items-center justify-center py-4">
+        <RenderGrid
+          isDisabled={isDisabled}
+          selectedGrid={selectedGrid}
+          setSelectedGrid={setSelectedGrid}
+        />
+      </div>
+    </div>
+  );
+};
+
+const DevelopmentTwo = () => {
+  const [clock, setClock] = useState({
+    hour: new Date().getHours(),
+    min: new Date().getMinutes(),
+    sec: new Date().getSeconds(),
+  });
+
+  useEffect(() => {
+    const clockInterval = setInterval(() => {
+      setClock({
+        hour: new Date().getHours(),
+        min: new Date().getMinutes(),
+        sec: new Date().getSeconds(),
+      });
+    }, 200);
+    return () => clearInterval(clockInterval);
+  }, [clock]);
+
+  return (
+    <div>
+      <div>Two</div>
+      <div className="bg-black flex items-center justify-center py-4">
+        {clock.hour} - {clock.min} - {clock.sec}
+      </div>
+    </div>
+  );
+};
+
+const DevelopmentThree = () => {
+  useEffect(() => {}, []);
+
+  return (
+    <div>
+      <div>Three</div>
+      <div className="bg-black flex items-center justify-center py-4"></div>
+    </div>
+  );
+};
+
+const Development = () => {
+  return (
+    <div className="p-4">
+      <DevelopmentOne />
+      <DevelopmentTwo />
+      <DevelopmentThree />
     </div>
   );
 };
