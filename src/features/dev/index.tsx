@@ -23,16 +23,15 @@ interface IQuiz {
   quiz: IQuestions;
 }
 
-const GRID = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-];
-
 interface IIsValuePresent {
   selectedGrid: string[];
   rowIndex: number;
   colIndex: number;
+}
+
+interface ITest {
+  quizApp: IQuiz | undefined;
+  onClose: () => void;
 }
 
 interface IRenderGrid {
@@ -40,6 +39,17 @@ interface IRenderGrid {
   selectedGrid: string[];
   setSelectedGrid: React.Dispatch<React.SetStateAction<string[]>>;
 }
+
+interface ISelectedOptions {
+  questionIndex: number;
+  selectedId: string;
+}
+
+const GRID = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+];
 
 const Modal = ({ children, isOpen, onClose }: IModal) => {
   if (!isOpen) return null;
@@ -298,7 +308,117 @@ const DevelopmentFour = () => {
   );
 };
 
+const AttempTest = ({ quizApp, onClose }: ITest) => {
+  const [selectedOptions, setSelectedOptions] = useState<ISelectedOptions[]>(
+    []
+  );
+  const [showScore, setShowScore] = useState(false);
+
+  const handleClick = (index: number, id: string) => {
+    const isIndexPresent = selectedOptions.find(
+      (i) => i.questionIndex === index
+    );
+
+    if (!isIndexPresent) {
+      return setSelectedOptions([
+        ...selectedOptions,
+        {
+          questionIndex: index,
+          selectedId: id,
+        },
+      ]);
+    }
+
+    const filterOutIndex = selectedOptions.filter(
+      (i) => i.questionIndex !== index
+    );
+    setSelectedOptions([
+      ...filterOutIndex,
+      { questionIndex: index, selectedId: id },
+    ]);
+  };
+
+  const getScore = () => {
+    if (!quizApp) return 0;
+
+    let total = 0;
+
+    quizApp.quiz.questions.map((i) =>
+      i.options.map((j) =>
+        selectedOptions.filter((l) => l.selectedId === j.id) && j.isCorrect
+          ? (total += 1)
+          : ""
+      )
+    );
+
+    return total;
+  };
+
+  if (!quizApp) return null;
+  return (
+    <div className="flex flex-col gap-2">
+      <div>
+        <div>Name :- {quizApp.quiz.quizName}</div>
+        <div>
+          <p>Id :- </p> {quizApp.id}
+        </div>
+      </div>
+
+      {!showScore && (
+        <div className="flex flex-col gap-2">
+          {quizApp.quiz.questions.map((i, j) => {
+            return (
+              <div key={j}>
+                Question {j + 1}: {i.question}
+                {i.options.map((k, l) => {
+                  const isChecked = selectedOptions.find(
+                    (i) => i.selectedId === k.id
+                  );
+                  return (
+                    <div key={l} className="flex gap-2">
+                      {k.option}
+                      <input
+                        type="radio"
+                        onChange={() => handleClick(j, k.id)}
+                        checked={isChecked ? true : false}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {showScore && (
+        <div className="flex items-center justify-between">
+          <p>Score: {getScore()}</p>
+          <Button onClick={() => onClose()}>Close</Button>
+        </div>
+      )}
+
+      <Button onClick={() => setShowScore(true)}>Submit</Button>
+    </div>
+  );
+};
+
+const EditTest = ({ quizApp, onClose }: ITest) => {
+  if (!quizApp) return null;
+  return (
+    <div>
+      <div>
+        <div>Name :- {quizApp.quiz.quizName}</div>
+        <div>
+          <p>Id :- </p> {quizApp.id}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const DevelopmentFive = () => {
+  const [selectedTestId, setSelectedTestId] = useState<string | null>(null);
   const [isAttemptModalOpen, setIsAttemptModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -414,13 +534,19 @@ const DevelopmentFive = () => {
         isOpen={isAttemptModalOpen}
         onClose={() => setIsAttemptModalOpen(!isAttemptModalOpen)}
       >
-        Attempt
+        <AttempTest
+          quizApp={quizApp.find((i) => i.id === selectedTestId)}
+          onClose={() => setIsAttemptModalOpen(!isAttemptModalOpen)}
+        />
       </Modal>
       <Modal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(!isEditModalOpen)}
       >
-        Edit
+        <EditTest
+          quizApp={quizApp.find((i) => i.id === selectedTestId)}
+          onClose={() => setIsEditModalOpen(!isEditModalOpen)}
+        />
       </Modal>
       <div>Five</div>
       <div className="bg-black flex flex-col space-y-2 items-center justify-center py-4">
@@ -497,13 +623,19 @@ const DevelopmentFive = () => {
               {i.quiz.quizName}
               <Button
                 className="cursor-pointer"
-                onClick={() => setIsAttemptModalOpen(!isAttemptModalOpen)}
+                onClick={() => {
+                  setSelectedTestId(i.id);
+                  setIsAttemptModalOpen(!isAttemptModalOpen);
+                }}
               >
                 Attempt
               </Button>
               <Button
                 className="cursor-pointer"
-                onClick={() => setIsEditModalOpen(!isEditModalOpen)}
+                onClick={() => {
+                  setSelectedTestId(i.id);
+                  setIsEditModalOpen(!isEditModalOpen);
+                }}
               >
                 Edit
               </Button>
