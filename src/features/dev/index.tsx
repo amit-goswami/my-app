@@ -1,6 +1,12 @@
 import Button from "../../components/button";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+
+interface IModal {
+  children: React.ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
+}
 
 interface IQuestion {
   question: string;
@@ -34,6 +40,23 @@ interface IRenderGrid {
   selectedGrid: string[];
   setSelectedGrid: React.Dispatch<React.SetStateAction<string[]>>;
 }
+
+const Modal = ({ children, isOpen, onClose }: IModal) => {
+  if (!isOpen) return null;
+  return (
+    <div className="absolute top-0 left-0 right-0 bottom-0 z-10 bg-black/60 w-svw h-svh">
+      <Button
+        className="cursor-pointer absolute left-auto right-1/6 top-1/18"
+        onClick={() => onClose()}
+      >
+        X
+      </Button>
+      <div className="absolute w-full h-full flex flex-col items-center justify-start gap-2 top-1/12">
+        {children}
+      </div>
+    </div>
+  );
+};
 
 const isValuePresent = ({
   selectedGrid,
@@ -189,6 +212,7 @@ const DevelopmentThree = () => {
     setStart(false);
     setCountDown(0);
     setCountMin(0);
+    setLaps([]);
   };
 
   const handleStart = () => {
@@ -275,6 +299,8 @@ const DevelopmentFour = () => {
 };
 
 const DevelopmentFive = () => {
+  const [isAttemptModalOpen, setIsAttemptModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quizApp, setQuizApp] = useState<IQuiz[]>([]);
   const [question, setQuestion] = useState<IQuestions>({
@@ -384,6 +410,18 @@ const DevelopmentFive = () => {
 
   return (
     <div>
+      <Modal
+        isOpen={isAttemptModalOpen}
+        onClose={() => setIsAttemptModalOpen(!isAttemptModalOpen)}
+      >
+        Attempt
+      </Modal>
+      <Modal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(!isEditModalOpen)}
+      >
+        Edit
+      </Modal>
       <div>Five</div>
       <div className="bg-black flex flex-col space-y-2 items-center justify-center py-4">
         {!isAddingQuiz && <Button onClick={handleAddQuiz}>Add Quiz</Button>}
@@ -457,7 +495,18 @@ const DevelopmentFive = () => {
           {quizApp.map((i, j) => (
             <li key={j} className="flex gap-2 items-center justify-center">
               {i.quiz.quizName}
-              <Button className="cursor-pointer">Attempt</Button>
+              <Button
+                className="cursor-pointer"
+                onClick={() => setIsAttemptModalOpen(!isAttemptModalOpen)}
+              >
+                Attempt
+              </Button>
+              <Button
+                className="cursor-pointer"
+                onClick={() => setIsEditModalOpen(!isEditModalOpen)}
+              >
+                Edit
+              </Button>
             </li>
           ))}
         </ul>
