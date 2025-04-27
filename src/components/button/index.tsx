@@ -27,7 +27,7 @@ const Button: React.FC<ButtonProps> = ({ variant = "primary", ...props }) => {
       {...props}
       className={`${baseClass} ${
         props.className ? props.className : ""
-      } rounded-md p-2 hover:shadow-md transition-all duration-200 ease-in-out cursor-pointer hover:scale-102 active:scale-95
+      } rounded-md p-1 hover:shadow-md transition-all duration-200 ease-in-out cursor-pointer hover:scale-102 active:scale-95
       `}
     />
   );

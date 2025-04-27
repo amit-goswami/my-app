@@ -1,3 +1,4 @@
+import Button from "../../components/button";
 import { useEffect, useState } from "react";
 
 const GRID = [
@@ -45,16 +46,15 @@ const RenderGrid = ({
         return (
           <div key={rowIndex}>
             {row.map((_, colIndex) => {
+              const isChecked = isValuePresent({
+                selectedGrid,
+                rowIndex,
+                colIndex,
+              });
               return (
                 <div
-                  className={`h-12 w-12 flex items-center justify-center border border-gray-400 cursor-pointer ${
-                    isValuePresent({
-                      selectedGrid,
-                      rowIndex,
-                      colIndex,
-                    })
-                      ? "bg-green-800"
-                      : ""
+                  className={`h-12 w-12 flex items-center justify-center border border-gray-400 ${!isDisabled ? "cursor-pointer" : "cursor-not-allowed"} ${
+                    isChecked ? "!bg-green-800" : ""
                   }`}
                   key={colIndex}
                   onClick={() =>
@@ -94,7 +94,7 @@ const DevelopmentOne = () => {
       }, 200);
     };
 
-    if (selectedGrid.length >= 9 || isDisabled) {
+    if (selectedGrid.length === 9 || isDisabled) {
       setIsDisabled(true);
       startRemoving();
     }
@@ -145,19 +145,71 @@ const DevelopmentTwo = () => {
 };
 
 const DevelopmentThree = () => {
-  useEffect(() => {}, []);
+  const [countMin, setCountMin] = useState<number>(0);
+  const [countDown, setCountDown] = useState<number>(0);
+  const [start, setStart] = useState<boolean>(false);
+  const [laps, setLaps] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!start) return;
+
+    const interval = setInterval(() => {
+      const count = countDown + 1;
+      if (count > 60) {
+        setCountMin((prev) => {
+          return prev + 1;
+        });
+        setCountDown(0);
+      }
+      setCountDown((prev) => {
+        return prev + 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [countDown, start]);
+
+  const handleReset = () => {
+    setStart(false);
+    setCountDown(0);
+    setCountMin(0);
+  };
+
+  const handleStart = () => {
+    setStart((prev) => !prev);
+  };
+
+  const handleCountLap = () => {
+    const time = `${countMin}-${countDown}`;
+    if (!countDown && !countMin) return;
+    setLaps([time, ...laps]);
+  };
 
   return (
     <div>
       <div>Three</div>
-      <div className="bg-black flex items-center justify-center py-4"></div>
+      <div className="bg-black flex flex-col space-y-2 items-center justify-center py-4">
+        {countMin} - {countDown}
+        <div className="flex gap-2 items-center justify-center">
+          <Button onClick={() => handleCountLap()}>Count Lap</Button>
+          <Button onClick={() => handleStart()}>
+            {start ? "Stop" : "Start"}
+          </Button>
+          <Button onClick={() => handleReset()}>Reset</Button>
+        </div>
+        <ul>
+          {laps.map((i, j) => (
+            <li key={j}>{i}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
 
 const Development = () => {
   return (
-    <div className="p-4">
+    <div className="p-4 bg-black">
       <DevelopmentOne />
       <DevelopmentTwo />
       <DevelopmentThree />
