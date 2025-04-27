@@ -1,5 +1,18 @@
 import Button from "../../components/button";
 import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+
+interface IQuestion {
+  id: string;
+  question: string;
+  options: { option: string; id: string; isCorrect: boolean }[];
+  quizName: string;
+}
+
+interface IQuiz {
+  id: string;
+  quiz: IQuestion;
+}
 
 const GRID = [
   [0, 1, 2],
@@ -248,9 +261,9 @@ const DevelopmentFour = () => {
         </div>
         <ul>
           {todo.list.map((i, j) => (
-            <div key={j} className="">
+            <li key={j} className="">
               {i}
-            </div>
+            </li>
           ))}
         </ul>
       </div>
@@ -259,7 +272,236 @@ const DevelopmentFour = () => {
 };
 
 const DevelopmentFive = () => {
-  return <></>;
+  const [quizApp, setQuizApp] = useState<IQuiz[]>([]);
+  const [isAddingQuestion, setIsAddingQuestion] = useState(false);
+  const [question, setQuestion] = useState<IQuestion>({
+    id: uuidv4(),
+    options: [
+      {
+        id: uuidv4(),
+        isCorrect: false,
+        option: "",
+      },
+      {
+        id: uuidv4(),
+        isCorrect: false,
+        option: "",
+      },
+      {
+        id: uuidv4(),
+        isCorrect: false,
+        option: "",
+      },
+      {
+        id: uuidv4(),
+        isCorrect: false,
+        option: "",
+      },
+    ],
+    question: "",
+    quizName: "",
+  });
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleAddQuestion = () => {
+    setIsAddingQuestion(true);
+  };
+
+  const handleClick = (action: "I" | "D") => {
+    if (action === "I") return setCurrentIndex((prev) => prev + 1);
+    return setCurrentIndex((prev) => prev - 1);
+  };
+
+  const handleSubmit = () => {
+    if (question) {
+      const newQuestion = {
+        id: uuidv4(),
+        quiz: question,
+      };
+      const updatedQuiz = [...quizApp, newQuestion];
+      setQuizApp(updatedQuiz);
+    }
+    setQuestion({
+      id: uuidv4(),
+      options: [
+        {
+          id: uuidv4(),
+          isCorrect: false,
+          option: "",
+        },
+        {
+          id: uuidv4(),
+          isCorrect: false,
+          option: "",
+        },
+        {
+          id: uuidv4(),
+          isCorrect: false,
+          option: "",
+        },
+        {
+          id: uuidv4(),
+          isCorrect: false,
+          option: "",
+        },
+      ],
+      question: "",
+      quizName: "",
+    });
+    setIsAddingQuestion(false);
+    setCurrentIndex(0);
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    action: "QN" | "Q" | "O" | "IC",
+    index?: number
+  ) => {
+    const { value } = e.target;
+
+    if (action === "QN") {
+      return setQuestion({
+        ...question,
+        quizName: value,
+      });
+    }
+
+    if (action === "Q") {
+      return setQuestion({
+        ...question,
+        question: value,
+      });
+    }
+
+    if (action === "O") {
+      if (!isNaN(Number(index))) {
+        const updatedOptions = question.options.map((i, j) => {
+          if (j === index) {
+            return {
+              ...i,
+              option: value,
+            };
+          }
+          return {
+            ...i,
+          };
+        });
+
+        return setQuestion({
+          ...question,
+          options: updatedOptions,
+        });
+      }
+    }
+
+    if (action === "IC") {
+      if (!isNaN(Number(index))) {
+        const updatedOptions = question.options.map((i, j) => {
+          if (j === index) {
+            return {
+              ...i,
+              isCorrect: Boolean(value),
+            };
+          }
+          return {
+            ...i,
+            isCorrect: false,
+          };
+        });
+
+        return setQuestion({
+          ...question,
+          options: updatedOptions,
+        });
+      }
+    }
+  };
+
+  return (
+    <div>
+      <div>Five</div>
+      <div className="bg-black flex flex-col space-y-2 items-center justify-center py-4">
+        {!isAddingQuestion && (
+          <Button onClick={() => handleAddQuestion()}>Add Question</Button>
+        )}
+        {isAddingQuestion &&
+          Array(5)
+            .fill(0)
+            .map((_, j) => {
+              if (j !== currentIndex) return null;
+              return (
+                <div className="flex flex-col gap-2" key={j}>
+                  <div>
+                    {j === 0 && (
+                      <div className="flex flex-col gap-2">
+                        <div>
+                          <p>Quiz Name </p>
+                          <input
+                            type="text"
+                            name="quizName"
+                            className="border bg-gray-400"
+                            value={question.quizName}
+                            onChange={(e) => handleChange(e, "QN")}
+                          />
+                        </div>
+                        <div>
+                          <p>Question </p>
+                          <input
+                            type="text"
+                            name="question"
+                            className="border bg-gray-400"
+                            value={question.question}
+                            onChange={(e) => handleChange(e, "Q")}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    {j > 0 && (
+                      <div className="flex flex-col gap-2">
+                        <div>
+                          Option {j} :{" "}
+                          <input
+                            type="text"
+                            name="option"
+                            className="border bg-gray-400"
+                            value={question.options[j - 1].option}
+                            onChange={(e) => handleChange(e, "O", j - 1)}
+                          />
+                        </div>
+                        <div className="flex items-center justify-end gap-2">
+                          <input
+                            type="radio"
+                            name="isCorrect"
+                            checked={question.options[j - 1].isCorrect}
+                            onChange={(e) => handleChange(e, "IC", j - 1)}
+                          />
+                          Is Correct
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex items-center justify-center gap-2">
+                    {currentIndex !== 0 && (
+                      <Button onClick={() => handleClick("D")}>Prev</Button>
+                    )}
+                    {currentIndex !== 4 && (
+                      <Button onClick={() => handleClick("I")}>Next</Button>
+                    )}
+                    {currentIndex === 4 && (
+                      <Button onClick={() => handleSubmit()}>Submit</Button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+        <ul>
+          {quizApp.map((i, j) => (
+            <li key={j}>{i.quiz.quizName}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
 };
 
 const Development = () => {
