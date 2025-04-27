@@ -207,12 +207,69 @@ const DevelopmentThree = () => {
   );
 };
 
+const DevelopmentFour = () => {
+  const [todo, setTodo] = useState<{
+    input: string;
+    list: string[];
+  }>({
+    input: "",
+    list: [],
+  });
+
+  const handleAdd = () => {
+    const text = todo.input;
+    const list = [text, ...todo.list];
+
+    setTodo({
+      input: "",
+      list: list,
+    });
+  };
+
+  return (
+    <div>
+      <div>Four</div>
+      <div className="bg-black flex flex-col space-y-2 items-center justify-center py-4">
+        <div className="flex gap-2">
+          <input
+            type="text"
+            name="input"
+            value={todo.input}
+            onChange={(e) => {
+              const { value } = e.target;
+              setTodo({
+                input: value,
+                list: todo.list,
+              });
+            }}
+            className="border bg-gray-400"
+          />
+          <Button onClick={() => handleAdd()}>Add</Button>
+        </div>
+        <ul>
+          {todo.list.map((i, j) => (
+            <div key={j} className="">
+              {i}
+            </div>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+const DevelopmentFive = () => {
+  return <></>;
+};
+
 const Development = () => {
   return (
     <div className="p-4 bg-black">
       <DevelopmentOne />
       <DevelopmentTwo />
       <DevelopmentThree />
+      <DevelopmentFour />
+      <DevelopmentFive />
     </div>
   );
 };
