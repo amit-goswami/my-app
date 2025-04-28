@@ -2,6 +2,11 @@ import Button from "../../components/button";
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
+interface IPayload {
+  boardId: string;
+  taskId: string;
+}
+
 interface IModal {
   children: React.ReactNode;
   isOpen: boolean;
@@ -43,6 +48,26 @@ interface IRenderGrid {
 interface ISelectedOptions {
   questionIndex: number;
   selectedId: string;
+}
+
+enum STATUS {
+  "TODO",
+  "INPROGRESS",
+  "DONE",
+}
+
+interface ITask {
+  id: string;
+  task: string;
+  status: STATUS;
+}
+
+interface IKanbanBoard {
+  id: string;
+  boardName: string;
+  todo: ITask[];
+  inProgress: ITask[];
+  done: ITask[];
 }
 
 const GRID = [
@@ -647,6 +672,222 @@ const DevelopmentFive = () => {
   );
 };
 
+const DUMMY_TASK = [
+  {
+    id: uuidv4(),
+    boardName: "TASK",
+    todo: [
+      {
+        id: uuidv4(),
+        task: "Walk",
+        status: STATUS.TODO,
+      },
+      {
+        id: uuidv4(),
+        task: "GYM",
+        status: STATUS.TODO,
+      },
+      {
+        id: uuidv4(),
+        task: "DRINK WATER",
+        status: STATUS.TODO,
+      },
+    ],
+    done: [],
+    inProgress: [],
+  },
+  {
+    id: uuidv4(),
+    boardName: "TASK 2",
+    todo: [
+      {
+        id: uuidv4(),
+        task: "Walk",
+        status: STATUS.TODO,
+      },
+      {
+        id: uuidv4(),
+        task: "GYM",
+        status: STATUS.TODO,
+      },
+      {
+        id: uuidv4(),
+        task: "DRINK WATER",
+        status: STATUS.TODO,
+      },
+    ],
+    done: [],
+    inProgress: [],
+  },
+  {
+    id: uuidv4(),
+    boardName: "TASK 3",
+    todo: [
+      {
+        id: uuidv4(),
+        task: "Walk",
+        status: STATUS.TODO,
+      },
+      {
+        id: uuidv4(),
+        task: "GYM",
+        status: STATUS.TODO,
+      },
+      {
+        id: uuidv4(),
+        task: "DRINK WATER",
+        status: STATUS.TODO,
+      },
+    ],
+    done: [],
+    inProgress: [],
+  },
+];
+
+const DevelopmentSix = () => {
+  const [boards, setBoards] = useState<IKanbanBoard[]>(DUMMY_TASK);
+  if (!boards.length) return;
+
+  const handleDragStart = (
+    e: React.DragEvent<HTMLDivElement>,
+    payload: IPayload
+  ) => {
+    e.dataTransfer.setData("DRAG_START", JSON.stringify(payload));
+  };
+
+  const handleDrop = (
+    e: React.DragEvent<HTMLDivElement>,
+    status: Exclude<Exclude<keyof IKanbanBoard, "id">, "boardName">
+  ) => {
+    const DRAG_START_PAYLOAD = e.dataTransfer.getData("DRAG_START");
+    const parsedData = JSON.parse(DRAG_START_PAYLOAD) as IPayload;
+
+    const { boardId, taskId } = parsedData;
+
+    const currentBoardData = boards.find((board) => board.id === boardId);
+
+    if (currentBoardData) {
+      const task =
+        currentBoardData.todo.find((task) => task.id === taskId) ||
+        currentBoardData.inProgress.find((task) => task.id === taskId) ||
+        currentBoardData.done.find((task) => task.id === taskId);
+
+      if (!task) return;
+
+      const updatedBoards = boards.map((board) => {
+        if (board.id === boardId) {
+          return {
+            ...board,
+            todo: board.todo.filter((t) => t.id !== taskId),
+            inProgress: board.inProgress.filter((t) => t.id !== taskId),
+            done: board.done.filter((t) => t.id !== taskId),
+            [status]: [
+              ...board[status],
+              {
+                ...task,
+                status: status === "todo" ? 0 : status === "inProgress" ? 1 : 2,
+              },
+            ],
+          };
+        }
+        return board;
+      });
+
+      setBoards(updatedBoards);
+    }
+  };
+
+  return (
+    <div>
+      <div>Six</div>
+      <div className="flex items-center justify-center flex-col">
+        {boards.map((i, j) => (
+          <div key={j} className="flex flex-col items-center w-full">
+            <p>{i.boardName}</p>
+            <div className="flex gap-2 items-start justify-center w-full">
+              <div
+                className="flex flex-col border-2 border-red-600 p-4 rounded-md items-center w-1/3 min-h-56 max-h-56 overflow-x-scroll"
+                onDrop={(e) => handleDrop(e, "todo")}
+                onDragOver={(e) => e.preventDefault()}
+              >
+                <p className="border-b-2 border-red-600 w-full flex justify-center items-center">
+                  TODO
+                </p>
+                {i.todo.map((l, m) => (
+                  <div
+                    key={m}
+                    className="mt-4 border-2 border-red-600 p-4 rounded-md w-full cursor-pointer"
+                    draggable
+                    onDragStart={(e) => {
+                      const payload = {
+                        boardId: i.id,
+                        taskId: l.id,
+                      };
+                      handleDragStart(e, payload);
+                    }}
+                  >
+                    {l.task}
+                  </div>
+                ))}
+              </div>
+              <div
+                className="flex flex-col border-2 border-red-600 p-4 rounded-md items-center w-1/3 min-h-56 max-h-56 overflow-x-scroll"
+                onDrop={(e) => handleDrop(e, "inProgress")}
+                onDragOver={(e) => e.preventDefault()}
+              >
+                <p className="border-b-2 border-red-600 w-full flex justify-center items-center">
+                  INPROGRESS
+                </p>
+                {i.inProgress.map((l, m) => (
+                  <div
+                    key={m}
+                    className="mt-4 border-2 border-red-600 p-4 rounded-md w-full cursor-pointer"
+                    draggable
+                    onDragStart={(e) => {
+                      const payload = {
+                        boardId: i.id,
+                        taskId: l.id,
+                      };
+                      handleDragStart(e, payload);
+                    }}
+                  >
+                    {l.task}
+                  </div>
+                ))}
+              </div>
+              <div
+                className="flex flex-col border-2 border-red-600 p-4 rounded-md items-center w-1/3 min-h-56 max-h-56 overflow-x-scroll"
+                onDrop={(e) => handleDrop(e, "done")}
+                onDragOver={(e) => e.preventDefault()}
+              >
+                <p className="border-b-2 border-red-600 w-full flex justify-center items-center">
+                  DONE
+                </p>
+                {i.done.map((l, m) => (
+                  <div
+                    key={m}
+                    className="mt-4 border-2 border-red-600 p-4 rounded-md w-full cursor-pointer"
+                    draggable
+                    onDragStart={(e) => {
+                      const payload = {
+                        boardId: i.id,
+                        taskId: l.id,
+                      };
+                      handleDragStart(e, payload);
+                    }}
+                  >
+                    {l.task}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const Development = () => {
   return (
     <div className="p-4 bg-black">
@@ -655,6 +896,7 @@ const Development = () => {
       <DevelopmentThree />
       <DevelopmentFour />
       <DevelopmentFive />
+      <DevelopmentSix />
     </div>
   );
 };
