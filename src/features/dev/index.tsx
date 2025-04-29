@@ -2,6 +2,12 @@ import Button from "../../components/button";
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
+interface IBoardSteps {
+  id: string;
+  moves: IKanbanBoard[];
+  currentStep: number;
+}
+
 interface IPayload {
   boardId: string;
   taskId: string;
@@ -127,8 +133,8 @@ const RenderGrid = ({
               });
               return (
                 <div
-                  className={`h-12 w-12 flex items-center justify-center border border-gray-400 ${!isDisabled ? "cursor-pointer" : "cursor-not-allowed"} ${
-                    isChecked ? "!bg-green-800" : ""
+                  className={`h-12 w-12 flex items-center justify-center border border-red-600 ${!isDisabled ? "cursor-pointer" : "cursor-not-allowed"} ${
+                    isChecked ? "!bg-red-600" : ""
                   }`}
                   key={colIndex}
                   onClick={() =>
@@ -317,7 +323,7 @@ const DevelopmentFour = () => {
                 list: todo.list,
               });
             }}
-            className="border bg-gray-400"
+            className="border bg-red-900"
           />
           <Button onClick={() => handleAdd()}>Add</Button>
         </div>
@@ -744,8 +750,23 @@ const DUMMY_TASK = [
   },
 ];
 
+const transform = (boards: IKanbanBoard[]) => {
+  const transFormedSteps = boards.map((i) => {
+    return {
+      id: i.id,
+      moves: [{ ...i }],
+      currentStep: 0,
+    };
+  });
+  return transFormedSteps;
+};
+
 const DevelopmentSix = () => {
   const [boards, setBoards] = useState<IKanbanBoard[]>(DUMMY_TASK);
+  const [boardsSteps, setStepsBoards] = useState<IBoardSteps[]>(
+    transform(boards)
+  );
+
   if (!boards.length) return;
 
   const handleDragStart = (
@@ -794,6 +815,75 @@ const DevelopmentSix = () => {
       });
 
       setBoards(updatedBoards);
+
+      // update the steps board
+      const updatedSteps = updatedBoards.filter((i) => i.id === boardId);
+      const updatedList = boardsSteps.map((i) => {
+        if (i.id === boardId) {
+          return {
+            ...i,
+            moves: [...i.moves, ...updatedSteps],
+          };
+        } else {
+          return i;
+        }
+      });
+
+      setStepsBoards(updatedList);
+    }
+  };
+
+  const handleMove = (move: "I" | "D", id: string) => {
+    setStepsBoards((prevSteps) =>
+      prevSteps.map((boardStep) => {
+        if (boardStep.id === id) {
+          let newStep = boardStep.currentStep;
+          if (
+            move === "I" &&
+            boardStep.currentStep < boardStep.moves.length - 1
+          ) {
+            newStep += 1;
+          }
+          if (move === "D" && boardStep.currentStep > 0) {
+            newStep -= 1;
+          }
+
+          // Update the board itself
+          const updatedBoards = boards.map((board) => {
+            if (board.id === id) {
+              return boardStep.moves[newStep];
+            }
+            return board;
+          });
+
+          setBoards(updatedBoards);
+
+          return {
+            ...boardStep,
+            currentStep: newStep,
+          };
+        }
+        return boardStep;
+      })
+    );
+  };
+
+  const isDisabled = (move: "I" | "D", id: string) => {
+    const findData = boardsSteps.find((i) => i.id === id);
+    if (!findData) return true;
+
+    if (move === "I") {
+      if (findData.currentStep === findData.moves.length - 1) {
+        return true;
+      }
+      return false;
+    }
+
+    if (move === "D") {
+      if (findData.currentStep === 0) {
+        return true;
+      }
+      return false;
     }
   };
 
@@ -802,8 +892,26 @@ const DevelopmentSix = () => {
       <div>Six</div>
       <div className="flex items-center justify-center flex-col">
         {boards.map((i, j) => (
-          <div key={j} className="flex flex-col items-center w-full">
-            <p>{i.boardName}</p>
+          <div key={j} className="flex flex-col items-center w-full mb-8">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <p>{i.boardName}</p>
+              <div className="flex items-center justify-center gap-2">
+                <Button
+                  onClick={() => handleMove("D", i.id)}
+                  disabled={isDisabled("D", i.id)}
+                  className="disabled:cursor-not-allowed"
+                >
+                  Redo
+                </Button>
+                <Button
+                  onClick={() => handleMove("I", i.id)}
+                  disabled={isDisabled("I", i.id)}
+                  className="disabled:cursor-not-allowed"
+                >
+                  Undo
+                </Button>
+              </div>
+            </div>
             <div className="flex gap-2 items-start justify-center w-full">
               <div
                 className="flex flex-col border-2 border-red-600 p-4 rounded-md items-center w-1/3 min-h-56 max-h-56 overflow-x-scroll"
