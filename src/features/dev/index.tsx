@@ -76,6 +76,20 @@ interface IKanbanBoard {
   done: ITask[];
 }
 
+type Direction = "R" | "L" | "U" | "D";
+
+interface IPosition {
+  rowIndex: number;
+  colIndex: number;
+}
+
+interface IState {
+  position: IPosition[];
+  start: boolean;
+  speed: number[];
+  direction: Direction;
+}
+
 const GRID = [
   [0, 1, 2],
   [3, 4, 5],
@@ -996,6 +1010,175 @@ const DevelopmentSix = () => {
   );
 };
 
+const GRID_SIZE = 12;
+
+const getDirection = (key: string) => {
+  switch (key) {
+    case "ArrowLeft":
+      return "L";
+    case "ArrowRight":
+      return "R";
+    case "ArrowUp":
+      return "U";
+    case "ArrowDown":
+      return "D";
+    default:
+      return null;
+  }
+};
+
+const getUpdatedPosition = <T extends IState>(state: T) => {
+  const { direction, position } = state;
+
+  const headIndex = position.length - 1;
+  const tailIndex = 0;
+
+  const head = position[headIndex];
+  const tail = position[tailIndex];
+
+  const headRow = head.rowIndex;
+  const headCol = head.colIndex;
+
+  const tailRow = tail.rowIndex;
+  const tailCol = tail.colIndex;
+
+  const incrementedRow = headRow + 1;
+  const incrementedCol = headCol + 1;
+
+  const decrementedRow = tailRow - 1;
+  const decrementedCol = tailCol - 1;
+
+  const removeTail = position.filter(
+    (i) => i.rowIndex !== tailRow && i.colIndex !== tailCol
+  );
+
+  const moveHeadToRight = [
+    ...removeTail,
+    {
+      rowIndex: headRow,
+      colIndex: incrementedCol,
+    },
+  ];
+
+  const moveHeadToLeft = [
+    ...removeTail,
+    {
+      rowIndex: headRow,
+      colIndex: decrementedCol,
+    },
+  ];
+
+  const moveHeadToDown = [
+    ...removeTail,
+    {
+      rowIndex: incrementedRow,
+      colIndex: headCol,
+    },
+  ];
+
+  const moveHeadToUp = [
+    ...removeTail,
+    {
+      rowIndex: decrementedRow,
+      colIndex: headCol,
+    },
+  ];
+
+  switch (direction) {
+    case "R":
+      return moveHeadToRight;
+    case "L":
+      return moveHeadToLeft;
+    case "D":
+      return moveHeadToDown;
+    case "U":
+      return moveHeadToUp;
+    default:
+      return position;
+  }
+};
+
+const useHangleGameLogic = <T extends IState>(
+  state: T,
+  setState: (arg: T) => void
+) => {
+  const { direction, speed } = state;
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const { key } = event;
+      const direction = getDirection(key);
+      if (typeof direction === "string") {
+        setState({
+          ...state,
+          direction: direction,
+        });
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [direction, state, setState]);
+
+  useEffect(() => {
+    const updatePosition = setInterval(() => {
+      const updatedPosition = getUpdatedPosition(state);
+      setState({
+        ...state,
+        position: updatedPosition,
+      });
+    }, speed[0]);
+    return () => clearInterval(updatePosition);
+  }, [speed, state, setState]);
+};
+
+const DevelopmentSeven = () => {
+  const [state, setState] = useState<IState>({
+    start: true,
+    direction: "R",
+    position: [
+      {
+        rowIndex: 0,
+        colIndex: 0,
+      },
+    ],
+    speed: [1000, 500, 200],
+  });
+
+  useHangleGameLogic(state, setState);
+
+  return (
+    <div>
+      <div>Seven</div>
+      <div className="bg-black flex flex-col items-center justify-center py-4">
+        {Array(GRID_SIZE)
+          .fill(0)
+          .map((_i, j) => {
+            return (
+              <div key={j} className="flex flex-row">
+                {Array(GRID_SIZE)
+                  .fill(0)
+                  .map((_k, l) => {
+                    const { position } = state;
+                    const isSnakeOnCurrentGrid = position.find(
+                      (i) => i.rowIndex === j && i.colIndex === l
+                    );
+                    return (
+                      <div
+                        key={l}
+                        className={`h-12 w-12 border-1 border-red-600 cursor-pointer ${isSnakeOnCurrentGrid ? "bg-red-600" : ""}`}
+                      ></div>
+                    );
+                  })}
+              </div>
+            );
+          })}
+      </div>
+    </div>
+  );
+};
+
 const Development = () => {
   return (
     <div className="p-4 bg-black">
@@ -1005,6 +1188,7 @@ const Development = () => {
       <DevelopmentFour />
       <DevelopmentFive />
       <DevelopmentSix />
+      <DevelopmentSeven />
     </div>
   );
 };
