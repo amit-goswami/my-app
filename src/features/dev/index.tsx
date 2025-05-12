@@ -458,6 +458,7 @@ const EditTest = ({ quizApp, onClose }: ITest) => {
           <p>Id :- </p> {quizApp.id}
         </div>
       </div>
+      <div onClick={() => onClose()}>X</div>
     </div>
   );
 };
