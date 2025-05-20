@@ -562,3 +562,224 @@
 // <meta> – Metadata (charset, viewport, etc.)
 // <title> – Page title
 // <base> – Base URL for links
+
+// DSA
+// 🔹 1. Arrays and Strings
+// Easy to Medium — Often used to test fundamentals
+// Two Sum
+// Best Time to Buy and Sell Stock
+// Maximum Subarray (Kadane’s Algorithm)
+// Move Zeroes
+// Rotate Array
+// Container With Most Water
+// Longest Substring Without Repeating Characters
+// Group Anagrams
+// Product of Array Except Self
+// Merge Intervals
+
+// 🔹 2. Hashing
+// Core for optimization and fast lookups
+// Valid Anagram
+// Top K Frequent Elements
+// Intersection of Two Arrays
+// Subarray Sum Equals K
+// Longest Consecutive Sequence
+
+// 🔹 3. Recursion and Backtracking
+// Medium — Often asked in systems with search or generation
+// Subsets / Subsets II
+// Combination Sum / Combination Sum II
+// Permutations / Permutations II
+// Word Search
+// N-Queens (Rare, but excellent prep)
+
+// 🔹 4. Linked Lists
+// Medium to Hard — Not frequent in frontend, but show algorithmic thinking
+// Reverse Linked List
+// Merge Two Sorted Lists
+// Detect Cycle in a Linked List
+// Remove N-th Node From End of List
+// Copy List with Random Pointer
+// Add Two Numbers (like big number addition)
+
+// 🔹 5. Trees and Graphs
+// Medium — Used to test understanding of recursive data
+// Binary Tree Inorder Traversal
+// Level Order Traversal
+// Lowest Common Ancestor
+// Serialize and Deserialize Binary Tree
+// Number of Islands (BFS/DFS)
+// Graph Valid Tree
+// Clone Graph
+
+// 🔹 6. Stack and Queue
+// Essential for browser/DOM-related logic simulation
+// Valid Parentheses
+// Min Stack
+// Daily Temperatures
+// Next Greater Element
+// Implement Queue using Stacks
+
+// 🔹 7. Sliding Window & Two Pointers
+// These are very commonly tested for performance-based problems
+// Longest Substring Without Repeating Characters
+// Minimum Window Substring
+// Maximum Sliding Window
+// Find All Anagrams in a String
+
+// 🔹 8. Binary Search & Sorting
+// Medium — Core to optimizing time complexity
+// Binary Search Variants (first/last position, etc.)
+// Search in Rotated Sorted Array
+// Kth Largest Element
+// Merge Sort / Quick Sort (conceptual + code)
+// Find Peak Element
+
+// 🔹 9. Dynamic Programming
+// Medium to Hard — At least 1-2 DP questions expected for 3+ years
+// Climbing Stairs
+// House Robber / House Robber II
+// Longest Increasing Subsequence
+// Coin Change
+// Edit Distance
+// 0/1 Knapsack (Top-down and Bottom-up)
+// Longest Palindromic Substring
+
+// 🔹 10. Real-world DSA/JS Hybrid Questions (Special for Frontend)
+// These combine JS logic + DSA principles:
+// Implement debounce and throttle
+// Deep clone an object (with cycles)
+// Event delegation implementation
+// Custom Promise.all / Promise.race
+// Implement a simple async scheduler
+// Virtual DOM diffing logic (Tree comparison)
+
+// ✅ Tips for a DSA Round (Frontend-Specific)
+// Preferred Language: Use JavaScript unless allowed to use another.
+// System Design Basics: Expect some light design questions like "Design autocomplete", "Design infinite scroll", etc.
+// Practice Platform: LeetCode, HackerRank, and FrontendExpert.io
+// Mock Interviews: Use Pramp, Interviewing.io to simulate pressure.
+// Target Pattern Recognition: Many companies repeat similar problem types.
+
+// Event Loops and all
+// JavaScript handles asynchronous operations using several mechanisms that allow non-blocking behavior—this is essential because JavaScript is single-threaded, and blocking operations (like waiting for a server response) would freeze the whole program.
+// Here’s a breakdown of how JS executes asynchronous operations:
+
+// 🧠 1. Event Loop Model
+// At the core of async behavior in JavaScript is the event loop. JS runs in a single-threaded environment (the main thread), and it uses the event loop to manage asynchronous tasks.
+
+// How it works:
+// The main thread executes code synchronously.
+// Asynchronous tasks (like setTimeout, fetch, or I/O operations) are handed off to the Web APIs (in browsers) or libuv (in Node.js).
+// When the async operation completes, a callback is queued in the callback queue (also called the task queue or message queue).
+// The event loop pushes these callbacks into the call stack only when the stack is empty.
+
+// 🧰 2. Mechanisms for Asynchronous Execution
+// ✅ Callbacks
+// The old way of handling async operations.
+
+// javascript
+// Copy
+// Edit
+// setTimeout(() => {
+//   console.log("Executed after 1 second");
+// }, 1000);
+// ✅ Promises
+// A modern way to handle async code, improving readability and chaining.
+
+// javascript
+// Copy
+// Edit
+// fetch('https://api.example.com/data')
+//   .then(response => response.json())
+//   .then(data => console.log(data))
+//   .catch(error => console.error(error));
+// ✅ Async/Await
+// Syntactic sugar over Promises, making async code look synchronous.
+
+// javascript
+// Copy
+// Edit
+// async function getData() {
+//   try {
+//     const response = await fetch('https://api.example.com/data');
+//     const data = await response.json();
+//     console.log(data);
+//   } catch (err) {
+//     console.error(err);
+//   }
+// }
+
+// 🕒 3. Task Queues
+// JavaScript differentiates between macro-tasks and micro-tasks.
+// Macro-tasks: setTimeout, setInterval, setImmediate, I/O
+// Micro-tasks: Promises (.then, .catch), queueMicrotask, MutationObserver
+// Event loop order:
+// Executes all micro-tasks after the current call stack is empty.
+// Then, executes one macro-task.
+// Repeats the cycle.
+
+// 🔁 Execution Flow Example
+// javascript
+// Copy
+// Edit
+// console.log('Start');
+
+// setTimeout(() => console.log('Timeout'), 0);
+
+// Promise.resolve().then(() => console.log('Promise'));
+
+// console.log('End');
+// Output:
+
+// sql
+// Copy
+// Edit
+// Start
+// End
+// Promise
+// Timeout
+// Explanation:
+
+// Synchronous code: Start, End
+// Microtask: Promise (runs before macro-tasks)
+// Macrotask: Timeout
+
+// ┌────────────────────────────┐
+// │        Call Stack          │
+// └────────────────────────────┘
+//          ▲      ▲
+//          │      │
+//  ┌───────┘      └───────┐
+//  │                      │
+// ┌────────┴──────┐     ┌─────────┴───────┐
+// │   Microtasks  │     │   Macrotasks    │
+// │ (Promises, etc)│     │ (setTimeout, etc)│
+// └───────────────┘     └────────────────┘
+//  ▲                      ▲
+//  │                      │
+// ┌───┴──────────────────────┴───┐
+// │         Event Loop           │
+// └──────────────────────────────┘
+
+
+// 🔁 How It Works in Action:
+// JS runs all synchronous code on the call stack.
+// When async functions are encountered:
+// Timers and I/O are passed to Web APIs (or Node.js internals).
+// Promises go into the microtask queue.
+// When the call stack is empty:
+// The event loop first flushes all microtasks.
+// Then it executes one macrotask (e.g., setTimeout), and repeats.
+
+// 🥡 Real-World Analogy: Restaurant
+// Imagine JavaScript is a single chef in a kitchen:
+// The chef (JS engine) can only cook one dish at a time (single-threaded).
+// When a customer places a complex order (like baking a cake), the chef doesn't wait for it.
+// He tells the oven (Web API) to bake it and sets a timer (like setTimeout).
+// Meanwhile, the chef continues working on other orders (synchronous code).
+// When the oven is done, it puts a sticky note (callback) on the counter (task queue).
+// The chef checks the counter only after he's done with current tasks (when the call stack is empty).
+
+// 🍰 Bonus twist: Promises are urgent notes that the chef checks before anything else, even before macrotasks.
+
