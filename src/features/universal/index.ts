@@ -762,7 +762,6 @@
 // │         Event Loop           │
 // └──────────────────────────────┘
 
-
 // 🔁 How It Works in Action:
 // JS runs all synchronous code on the call stack.
 // When async functions are encountered:
@@ -783,3 +782,5 @@
 
 // 🍰 Bonus twist: Promises are urgent notes that the chef checks before anything else, even before macrotasks.
 
+// https://www.interviewbit.com/react-interview-questions/
+// https://www.notion.so/amit-g0swami/Engineering-143ece10526a40e2b2ecbe5409aeb09f
